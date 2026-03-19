@@ -1,0 +1,16 @@
+[sqlfluff]
+templater = jinja
+dialect = sqlite
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = false
+
+[sqlfluff:indentation]
+indented_joins = false
+template_blocks_indent = true
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.identifiers]
+capitalisation_policy = lower
