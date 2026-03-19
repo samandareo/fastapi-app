@@ -7,7 +7,9 @@ repos:
       - id: check-json
       - id: check-merge-conflict
       - id: end-of-file-fixer
+        exclude: templates/
       - id: trailing-whitespace
+        exclude: templates/
       - id: check-added-large-files
         args: ['--maxkb=500']
 

@@ -2,55 +2,73 @@
 
 {% block content %}
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const saveButton = document.getElementById("save");
+    saveButton.addEventListener("click", function() {
+        const symbolsText = document.getElementById("symbols").value;
+        if (!symbolsText) {
+            alert("Please enter symbols");
+            return;
+        }
 
+        fetch("/stocks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ symbols: symbolsText })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            window.location.reload(); // Reload to see new listings
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred");
+        });
+    });
+});
 </script>
 
 
-
-
-<table class="table table-striped border-info">
-  <thead>
+<table class="table table-striped table-hover mt-3">
+  <thead class="table-dark">
     <tr>
-      <th style="width: 75%">FILE</th>
-      <th>TAILLE</th>
-      <th>SEED</th>
-      <th>LEECH</th>
-      
+      <th>SYMBOL</th>
+      <th>PRICE</th>
+      <th>P/E RATIO</th>
+      <th>EPS</th>
     </tr>
   </thead>
   <tbody>
-    <!-- {% for stock in stocks %}
+    {% for stock in stocks %}
     <tr>
-      <td >{{ stock.symbol }}</td>
-      <td>{{ stock.price }}</td>
+      <td><strong>{{ stock.symbol }}</strong></td>
+      <td>${{ stock.price }}</td>
       <td>{{ stock.forward_pe }}</td>
       <td>{{ stock.forward_eps }}</td>
-      
     </tr>
-    {% endfor %} -->
+    {% endfor %}
   </tbody>
 </table>
 
-<div class="modal">
-    <i class="close icon">X</i>
-    <div class="modal-header">
-      Add Stocks
-    </div>
-    <div class="modal-body">
-        <div class="">
-            <div class="field">
-              <label>Symbols</label>
-              <textarea id="symbols"></textarea>
-            </div>
-          </div>
+<div class="card mt-4">
+  <div class="card-header bg-primary text-white">
+    Add Stocks
+  </div>
+  <div class="card-body">
+    <div class="mb-3">
+      <label for="symbols" class="form-label">Symbols (Comma or newline separated)</label>
+      <textarea id="symbols" class="form-control" rows="3" placeholder="AAPL, GOOG, TSLA"></textarea>
     </div>
     <div class="actions">
-      <div id="save" class="ui positive right labeled icon button">
+      <button id="save" class="btn btn-success">
         Add Symbols
-        <i class="plus icon"></i>
-      </div>
+      </button>
     </div>
   </div>
+</div>
 
   <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
   <div class="btn-group me-2" role="group" aria-label="First group">
