@@ -1,3 +1,5 @@
+exclude: '^(static|templates)/'
+
 repos:
   # Git Hygiene
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -7,9 +9,7 @@ repos:
       - id: check-json
       - id: check-merge-conflict
       - id: end-of-file-fixer
-        exclude: templates/
       - id: trailing-whitespace
-        exclude: templates/
       - id: check-added-large-files
         args: ['--maxkb=500']
 
